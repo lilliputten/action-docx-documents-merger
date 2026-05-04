@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getErrorText } from '@/lib';
 
-import { TDocBuffer } from '../helpers';
 import { isValidDocxBuffer } from '../helpers/docxConverter';
 import { mergeDocxBuffers } from '../helpers/docxMerger';
 import type { MergeError, MergeProgress } from '../types';

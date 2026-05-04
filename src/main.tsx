@@ -28,14 +28,16 @@ if (isDev && !VITE_NO_STRICT_MODE) {
 
 createRoot(node!).render(content);
 
-// DEBUG: Handle vite runtime errors
-if (isDev) {
-  const showErrorOverlay = (err: unknown) => {
-    const ErrorOverlay = customElements.get('vite-error-overlay');
-    if (!ErrorOverlay) return;
-    const overlay = new ErrorOverlay(err);
-    document.body.appendChild(overlay);
-  };
-  window.addEventListener('error', showErrorOverlay);
-  window.addEventListener('unhandledrejection', ({ reason }) => showErrorOverlay(reason));
-}
+/*
+ * // DEBUG: Handle vite runtime errors
+ * if (isDev) {
+ *   const showErrorOverlay = (err: unknown) => {
+ *     const ErrorOverlay = customElements.get('vite-error-overlay');
+ *     if (!ErrorOverlay) return;
+ *     const overlay = new ErrorOverlay(err);
+ *     document.body.appendChild(overlay);
+ *   };
+ *   window.addEventListener('error', showErrorOverlay);
+ *   window.addEventListener('unhandledrejection', ({ reason }) => showErrorOverlay(reason));
+ * }
+ */

@@ -70,6 +70,17 @@ module.exports = /**
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
+      fallback: {
+        path: require.resolve('path-browserify'),
+        crypto: require.resolve('crypto-browserify'),
+        zlib: require.resolve('browserify-zlib'),
+        fs: require.resolve('browserify-fs'),
+        buffer: require.resolve('buffer/'),
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util/'),
+        assert: require.resolve('assert/'),
+        vm: require.resolve('vm-browserify'),
+      },
     },
     devServer: {
       open: false,
@@ -84,8 +95,26 @@ module.exports = /**
         publicPath: '/static', // Serve these files at the root URL
       },
     },
+    /*
+     * ignoreWarnings: [
+     *   {
+     *     module: /@valentiniljaz[\\/]docx-merger/,
+     *     message: /Critical dependency/,
+     *   },
+     * ],
+     */
     module: {
       rules: [
+        /*
+         * // Add special handling for docx-merger to avoid critical dependency warnings
+         * {
+         *   test: /\.node_modules[\\/]@valentiniljaz[\\/]docx-merger[\\/].*\.js$/,
+         *   use: {
+         *     loader: 'ts-loader',
+         *   },
+         *   type: 'javascript/auto',
+         * },
+         */
         {
           test: /\.tsx?$/,
           loader: 'ts-loader',

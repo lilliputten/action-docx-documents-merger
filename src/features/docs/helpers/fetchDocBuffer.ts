@@ -3,7 +3,7 @@ import { getDocTypeIdentString, TDocTypeId } from '@/features/docType';
 const docUrlPrefix = './static/docs/';
 const docExt = '.docx';
 
-export type TDocData = ArrayBuffer; // Buffer<ArrayBufferLike>;
+export type TDocData = Buffer<ArrayBufferLike>;
 export type TDocBuffer = Buffer<ArrayBufferLike>;
 export type TDocCachedBuffers = Partial<Record<TDocTypeId, TDocData>>;
 
@@ -42,6 +42,7 @@ export async function fetchDocBuffer(id: TDocTypeId) {
       ok,
       status,
       contentType,
+      headersHash,
       headers,
       res,
       url,
@@ -57,9 +58,9 @@ export async function fetchDocBuffer(id: TDocTypeId) {
   });
   const arrayBuffer = await res.arrayBuffer();
   /* // Possible transformations:
-   * const nodeBuffer = Buffer.from(arrayBuffer);
-   * const binary = String.fromCharCode(...new Uint8Array(arrayBuffer));
+   * const binary: string = String.fromCharCode(...new Uint8Array(arrayBuffer));
    */
-  cachedBuffers[id] = arrayBuffer;
-  return arrayBuffer;
+  const buffer: Buffer<ArrayBufferLike> = Buffer.from(arrayBuffer);
+  cachedBuffers[id] = buffer;
+  return cachedBuffers[id];
 }

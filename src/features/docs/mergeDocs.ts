@@ -1,4 +1,4 @@
-// import { mergeDocx } from '@benedicte/docx-merge';
+import { mergeDocx } from '@benedicte/docx-merge';
 // import DocxMerger from '@valentiniljaz/docx-merger';
 
 // import * as htmlDocx from 'html-docx-js';
@@ -29,22 +29,21 @@ export async function mergeDocs(ids: TDocTypeId[]) {
     }
     const file1 = results[0];
     const file2 = results[1];
-    /* METHOD 1
+    /* // METHOD 1
      * const docx = new DocxMerger();
-     * await docx.initialize({},[file1,file2]);
+     * await docx.initialize({}, [file1, file2]);
      * // SAVING THE DOCX FILE
      * const result = await docx.save('nodebuffer');
      */
-    /* METHOD 2
-     * // @see https://www.npmjs.com/package/@benedicte/docx-merge
-     * const result = mergeDocx(file1, file2, {});
-     */
+    // METHOD 2
+    // @see https://www.npmjs.com/package/@benedicte/docx-merge
+    const result = mergeDocx(file1, file2, {});
     console.log('[mergeDocs:done]', {
       promises,
       ids,
     });
     debugger;
-    return results;
+    return result;
   } catch (error) {
     const message = 'Ошибка объединения документов';
     const details = getErrorText(error);
