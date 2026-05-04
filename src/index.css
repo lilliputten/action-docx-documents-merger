@@ -1,0 +1,235 @@
+@import 'tailwindcss/theme' layer(theme);
+@import 'tailwindcss/utilities' layer(utilities);
+
+/* NOTE: Fix for unsupported `@media (hover:hover)` media queries: it's possible to happen on a touch-able laptop screens. */
+/* stylelint-disable-next-line scss/at-rule-no-unknown, at-rule-no-unknown */
+/* @custom-variant hover (&:hover); */
+
+:root {
+  /* Define colors */
+
+  --backgroundColor: #eee;
+  --textColor: #222;
+
+  /* --backgroundColor: #444; */
+  /* --textColor: #ccc; */
+
+  --paperColor: #fff;
+  --primaryColor: #48f;
+  --secondaryColor: #fb1;
+  --appDestructiveColor: #f55;
+  --formSize: 2.5em;
+
+  --toastify-color-info: #2b7fff;
+  --toastify-color-warning: #fe9a00;
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.3;
+  font-weight: 400;
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.2;
+    font-weight: 400;
+  }
+
+  /* Set adaptive font size */
+  /* font-size: min(2vw, 2.4vh); [> max(13px, 1.62vh); <] */
+
+  color-scheme: light dark;
+  color: var(--textColor);
+  background-color: var(--backgroundColor);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* align-content: space-around; */
+  justify-content: center;
+  flex: 1;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: space-around;
+}
+
+/* Tailwind forms
+ * @see https://v1.tailwindcss.com/components/forms
+ */
+.input {
+  /* @apply appearance-none rounded border px-3 py-1 leading-tight shadow; */
+  height: var(--formSize);
+}
+.input.inactive,
+.input.disabled {
+  @apply pointer-events-none;
+}
+.input.disabled {
+  @apply opacity-50;
+}
+
+.input-primary {
+  @apply border-1 border-blue-500 ring-(--primaryColor) focus:ring focus:outline-none;
+}
+
+/* Tailwind buttons
+ * @see https://v1.tailwindcss.com/components/buttons
+ */
+.btn,
+.btn-base {
+  @apply box-border items-center gap-2 truncate rounded transition-all;
+  height: var(--formSize);
+}
+.btn {
+  @apply px-2 py-1;
+}
+.btn-sm-text {
+  /* Button collapses to icon-only button (hides nested span) on sm widths */
+  @apply sm:px-4 [&>span]:hidden [&>span]:sm:block;
+}
+.btn-text {
+  @apply px-4;
+}
+.btn.inactive,
+.btn.disabled {
+  @apply pointer-events-none;
+}
+.btn.disabled {
+  @apply opacity-50;
+}
+.btn:not(.inactive):not(.disabled) {
+  @apply cursor-pointer;
+}
+.btn-icon {
+  @apply justify-center px-1;
+  min-width: var(--formSize); /* Try to make it square */
+}
+.btn-plain:hover {
+  @apply bg-blue-400/20;
+}
+.btn-framed {
+  @apply border-1 border-blue-500;
+}
+.btn-framed:hover {
+  @apply bg-blue-400/20;
+}
+.btn-primary {
+  @apply bg-(--primaryColor);
+}
+.btn-primary:hover {
+  @apply bg-(--primaryColor)/80;
+}
+.btn-blue {
+  @apply bg-blue-500;
+}
+.btn-blue:hover {
+  @apply bg-blue-400;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.disappear-animation-after {
+  &:after {
+    opacity: 0;
+    animation: disappear-animation 2s;
+  }
+}
+
+@keyframes disappear-animation {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+}
+
+.animated-background {
+  background-color: rgba(65 129 255 / 5%);
+  animation: animated-background 2s infinite;
+}
+
+@keyframes animated-background {
+  0%,
+  100% {
+    background-color: rgba(65 129 255 / 10%);
+  }
+  50% {
+    background-color: rgba(65 129 255 / 30%);
+  }
+}
+
+@keyframes wrong-cell-clicked-animation {
+  20% {
+    border-color: var(--toastify-color-error);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+div[data-clicked='wrong']:before {
+  border: 2px solid transparent;
+  animation: wrong-cell-clicked-animation 1s ease-out;
+  box-shadow: none;
+}
+
+@keyframes correct-cell-clicked-animation {
+  20% {
+    border-color: var(--toastify-color-success);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+div[data-clicked='correct']:before {
+  border: 2px solid transparent;
+  animation: correct-cell-clicked-animation 1s ease-out;
+  box-shadow: none;
+}
+
+.Toastify__toast {
+  padding-right: 20px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@layer utilities {
+  .disabled {
+    @apply pointer-events-none cursor-default opacity-30;
+  }
+  .content-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
