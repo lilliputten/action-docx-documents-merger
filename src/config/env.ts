@@ -1,7 +1,7 @@
 import appInfo from '@/app-info.json';
 
-export const isDev = import.meta.env.DEV; // Vite mode
-// export const isDev = process.env.NODE_ENV === 'development'; // WebPack mode
+// export const isDev = import.meta.env.DEV; // Vite mode
+export const isDev = process.env.NODE_ENV === 'development'; // WebPack mode
 export const isProd = !isDev;
 
 export const versionInfo = appInfo.versionInfo;

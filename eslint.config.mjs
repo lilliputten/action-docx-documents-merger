@@ -45,6 +45,7 @@ export default [
       // Ignore `.gitignore` specified fiels etc...
       ...readGitignoreFiles({ cwd: __dirname }),
       'public/**',
+      'static/**',
       'dist/**',
       '.next/**',
     ],

@@ -13,7 +13,7 @@ if [ -z "$CONFIG_IMPORTED" ]; then
   BUILD_FOLDER="dist"
 
   VERSION_FILE="project-version.txt"
-  PROJECT_INFO_FILE="public/app-info.txt"
+  PROJECT_INFO_FILE="static/app-info.txt"
   PROJECT_INFO_JSON_FILE="src/app-info.json"
 
   SRC_TAG_PREFIX="v" # "v" for default "v.X.Y.Z"

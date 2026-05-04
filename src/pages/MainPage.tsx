@@ -1,50 +1,87 @@
 import React from 'react';
+import { saveAs } from 'file-saver';
 import { Check, LoaderCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 import { DocItem } from '@/components';
 import { appTitle, isDev } from '@/config';
-import { mergeDocs } from '@/features/docs/mergeDocs';
+import { fetchDocBuffer } from '@/features/docs/helpers';
+import { useDocxMerge } from '@/features/docs/hooks';
 import { docTypeIds, TDocTypeId } from '@/features/docType';
 import { cn, getErrorText } from '@/lib';
 import { ErrorLike } from '@/types/ErrorLike';
 
-import docIcon from '/doc-icon.svg';
+import docIcon from '/static/doc-icon.svg';
 
 export function MainPage() {
   const [error, setError] = React.useState<ErrorLike>();
   const [isCreating, setIsCreating] = React.useState(false);
   const [hasCreated, setHasCreated] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState<Set<TDocTypeId>>(
-    new Set(isDev ? ['glass'] : []),
+    new Set(
+      isDev
+        ? [
+            'glass',
+            // 'rubber',
+          ]
+        : [],
+    ),
   );
 
+  const { mergeDocuments, isMerging, progress, error: mergeError, reset } = useDocxMerge();
+
   const createDoc = React.useCallback(async () => {
+    if (!selectedItems.size) {
+      return;
+    }
+
     const items = [...selectedItems];
-    console.log('[createDoc:start]', {
+    console.log('[MainPage:createDoc:start]', {
       items,
     });
+
+    const promises = items.map((id) => fetchDocBuffer(id));
     try {
-      const results = await mergeDocs(items);
-      console.log('[createDoc:loaded]', {
-        results,
+      const buffers = await Promise.all(promises);
+      console.log('[MainPage:createDoc:loaded]', {
+        buffers,
+        promises,
         items,
       });
-      debugger;
-      setError(undefined);
+      const documentTitle = 'document-' + items.join('-');
+      const documentFilename = `${documentTitle}.docx`;
+      const mergedBlob = await mergeDocuments({ buffers, documentTitle });
+      console.log('[MainPage:createDoc:done]', {
+        mergedBlob,
+        promises,
+        items,
+      });
+
+      if (mergedBlob) {
+        // saveAs(mergedBlob, documentFilename);
+        // Trigger download
+        const url = URL.createObjectURL(mergedBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${documentTitle}.docx`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
     } catch (error) {
-      const message = 'Не удалось создать документ';
+      const message = 'Ошибка создания документа';
       const details = getErrorText(error);
       const comboMsg = [message, details].join(': ');
       // eslint-disable-next-line no-console
-      console.error('[MainPage:createDoc]', comboMsg, {
+      console.error('[mergeDocs]', comboMsg, {
         message,
         details,
         error,
+        items,
       });
       debugger; // eslint-disable-line no-debugger
-      toast.error(comboMsg);
-      setError(comboMsg);
+      throw new Error(comboMsg);
     }
     /* // UNUSED: Navigate to a specific page
      * const searchParams = new URLSearchParams();
@@ -54,7 +91,7 @@ export function MainPage() {
      *   search: `?${searchParams.toString()}`,
      * });
      */
-  }, [selectedItems]);
+  }, [mergeDocuments, selectedItems]);
 
   const toggleitem = React.useCallback((id: TDocTypeId) => {
     setSelectedItems((selectedItems) => {
@@ -88,7 +125,7 @@ export function MainPage() {
     <div
       className={cn(
         isDev && '__MainPage', // DEBUG
-        'content-truncate flex max-w-md flex-col self-center',
+        'flex w-full max-w-md flex-col self-center',
       )}
     >
       <div
