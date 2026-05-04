@@ -5,4 +5,6 @@ export const docTypes = {
   glass: 'Стеклянные',
   dressings: 'Перевязочные средства',
 } as const;
-export type TDocTypeId = (typeof docTypes)[keyof typeof docTypes];
+export type TDocTypeId = keyof typeof docTypes;
+export type TDocTypeName = (typeof docTypes)[keyof typeof docTypes];
+export const docTypeIds = Object.keys(docTypes) as TDocTypeId[];

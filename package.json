@@ -69,7 +69,6 @@
     "pretty-quick": "^4.2.2",
     "react-helmet-async": "^2.0.5",
     "rimraf": "^6.0.1",
-    "sass-embedded": "^1.99.0",
     "screenfull": "^6.0.2",
     "stylelint": "^16.21.1",
     "stylelint-config-recommended": "^16.0.0",

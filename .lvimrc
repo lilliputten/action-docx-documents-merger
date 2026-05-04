@@ -5,7 +5,10 @@
 " See Plugins.vim, CtrlP section
 let g:ctrlp_custom_ignore['dir'] = substitute(g:ctrlp_custom_ignore['dir'], ')\$', "|publish|build|dist|.next)$", "g")
 
-" Disable tsserver diagnostics for TypeScript files
+let g:coc_npm_command = 'pnpm'
+
+set shellslash " Use forward slashes
+
 let g:coc_user_config = {
   \ 'tsserver.enable': v:true,
   \ 'eslint.enable': v:true,

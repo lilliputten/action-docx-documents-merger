@@ -1,0 +1,30 @@
+import { Link, useSearchParams } from 'react-router-dom';
+
+import { isDev } from '@/config';
+import { cn } from '@/lib';
+
+export function CreateDocPage() {
+  const [searchParams] = useSearchParams();
+  const docs = searchParams.getAll('doc');
+  return (
+    <div
+      className={cn(
+        isDev && '__CreateDocPage', // DEBUG
+        'content-truncate flex max-w-md flex-col self-center',
+      )}
+    >
+      <div
+        className={cn(
+          isDev && '__CreateDocPage_Container', // DEBUG
+          'content-truncate flex flex-col gap-4 p-6',
+        )}
+      >
+        <h1 className="truncate">CreateDocPage</h1>
+        <pre className="content-truncate">{JSON.stringify(docs, null, 2)}</pre>
+        <p className="content-truncate text-sm">
+          <Link to="/">Main</Link>
+        </p>
+      </div>
+    </div>
+  );
+}

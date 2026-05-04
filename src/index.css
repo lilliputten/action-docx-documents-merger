@@ -1,6 +1,8 @@
 @import 'tailwindcss/theme' layer(theme);
 @import 'tailwindcss/utilities' layer(utilities);
 
+@source "./**/*.{js,jsx,ts,tsx}";
+
 /* NOTE: Fix for unsupported `@media (hover:hover)` media queries: it's possible to happen on a touch-able laptop screens. */
 /* stylelint-disable-next-line scss/at-rule-no-unknown, at-rule-no-unknown */
 /* @custom-variant hover (&:hover); */
@@ -35,7 +37,7 @@
   }
 
   /* Set adaptive font size */
-  /* font-size: min(2vw, 2.4vh); [> max(13px, 1.62vh); <] */
+  /* font-size: min(max(14px, 2vw), 2.4vh); */
 
   color-scheme: light dark;
   color: var(--textColor);
@@ -96,9 +98,11 @@ body,
 .btn,
 .btn-base {
   @apply box-border items-center gap-2 truncate rounded transition-all;
-  height: var(--formSize);
 }
 .btn {
+  height: var(--formSize);
+  @apply box-border items-center gap-2 truncate rounded transition-all;
+  @apply cursor-pointer;
   @apply px-2 py-1;
 }
 .btn-sm-text {
@@ -218,6 +222,7 @@ div[data-clicked='correct']:before {
 }
 
 .Toastify__toast {
+  @apply text-sm;
   padding-right: 20px;
   -webkit-user-select: none;
   user-select: none;

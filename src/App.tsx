@@ -4,13 +4,13 @@ import { ToastContainer } from 'react-toastify';
 
 import { TailwindIndicator } from '@/blocks/TailwindIndicator';
 import { isDev } from '@/config';
-import { CreateDocPage, MainPage } from '@/pages';
+import { MainPage } from '@/pages';
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/create" element={<CreateDocPage />} />
+      {/* <Route path="/create" element={<CreateDocPage />} /> */}
     </Routes>
   );
 }

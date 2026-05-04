@@ -6,6 +6,8 @@ export const isProd = !isDev;
 
 export const versionInfo = appInfo.versionInfo;
 
+export const appTitle: string = import.meta.env.VITE_APP_TITLE || '';
+
 /* // NOTE: These parameters are required if we need a server API application
  * export const originHost =
  *   window.location.origin || window.location.protocol + '//' + window.location.host;
