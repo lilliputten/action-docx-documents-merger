@@ -1,6 +1,7 @@
 // @ts-check
 
 const webpack = require('webpack');
+const fs = require('fs');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
@@ -8,6 +9,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const prettier = require('prettier');
+
+// Make sure that env variables are loaded
+if (fs.existsSync('.env')) {
+  process.loadEnvFile();
+}
 
 /** Convert to boolean value
  * @param {string} [x]
@@ -225,8 +231,8 @@ module.exports = /**
         filename: 'index.html',
         minify: false,
         templateParameters: {
-          VITE_APP_TITLE: process.env.VITE_APP_TITLE,
-          VITE_APP_DESCRIPTION: process.env.VITE_APP_DESCRIPTION,
+          REACT_APP_TITLE: process.env.REACT_APP_TITLE,
+          REACT_APP_DESCRIPTION: process.env.REACT_APP_DESCRIPTION,
         },
         /* // @see https://github.com/jantimon/html-webpack-plugin?tab=readme-ov-file#minification
          * minify: {

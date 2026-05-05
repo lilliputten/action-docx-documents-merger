@@ -6,15 +6,13 @@ import { createRoot } from 'react-dom/client';
 
 import '@/index.css';
 
-import { isDev, noStrictMode, versionInfo } from '@/config/env';
+import { appId, isDev, noStrictMode, versionInfo } from '@/config/env';
 import App from '@/App';
 
 const node = document.getElementById('root');
 
 // eslint-disable-next-line no-console
-console.log('[client/src/main] versionInfo:', versionInfo);
-// eslint-disable-next-line no-console
-console.log('[client/src/main] isDev:', isDev);
+console.warn(appId, versionInfo);
 
 let content = <App />;
 

@@ -39,7 +39,7 @@ Set up local [environent variables](#environent-variables) (not required).
 
 The application environent variables could be provided by the environment (from github actions or vercel environment setup) or be set in the local `.env` file (see a template in [.env.SAMPLE](.env.SAMPLE));
 
-- `VITE_NO_STRICT_MODE`: Disable react strict mode (causes double hooks' invocations).
+- `REACT_APP_NO_STRICT_MODE`: Disable react strict mode (causes double hooks' invocations).
 
 ## Local development
 
