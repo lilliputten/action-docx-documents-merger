@@ -175,18 +175,21 @@ export function MainPage() {
             {String(error)}
           </div>
         )}
-        <h1
-          className={cn(
-            isDev && '__MainPage_Title', // DEBUG
-            'content-truncate m-0',
-          )}
-        >
-          {appTitle}
-        </h1>
+        {!!appTitle && (
+          <h1
+            className={cn(
+              isDev && '__MainPage_Title', // DEBUG
+              'content-truncate m-0',
+              'text-[1.5rem]',
+            )}
+          >
+            {appTitle}
+          </h1>
+        )}
         <ul
           className={cn(
             isDev && '__MainPage_Items', // DEBUG
-            'content-truncate animation flex flex-col gap-1 p-0',
+            'content-truncate animation m-0 flex flex-col gap-1 p-0',
             isCreating && 'disabled',
           )}
         >

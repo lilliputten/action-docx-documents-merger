@@ -1,7 +1,7 @@
 <!--
  @project action-docx-documents-merger
  @since 2026.05.04
- @changed 2026.05.04, 14:54
+ @changed 2026.05.05, 18:18
 -->
 
 # Action - DOCX documents merger
@@ -14,7 +14,7 @@ Simple docx documents merger.
 
 ## Build info (auto-generated)
 
-- Project info: v.0.0.1 / 2026.05.05 16:07:32 +0300
+- Project info: v.0.0.1 / 2026.05.05 18:14:48 +0300
 
 ## Resources
 
@@ -26,8 +26,8 @@ Simple docx documents merger.
 Core resources:
 
 - Client entry point (react app): [src/main.tsx](src/main.tsx).
-- Client template: [index.html](index.html).
-- Client-side core component: [src/components/PharmaStore/PharmaStoreScreen.tsx](src/components/PharmaStore/PharmaStoreScreen.tsx).
+- Client template: [src/index.ejs](src/index.ejs).
+- Client-side core component: [src/pages/MainPage.tsx](src/pages/MainPage.tsx).
 
 ## Installation
 
@@ -49,7 +49,7 @@ Run local development server via a command:
 pnpm dev
 ```
 
--- It will start server app locally, on port 5173.
+-- It will start server app locally, (webpack on a port 3000, vite -- on a port 5173).
 
 ## Maintenance tools
 

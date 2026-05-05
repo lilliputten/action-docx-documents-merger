@@ -213,6 +213,10 @@ module.exports = /**
         patterns: /** @type {import('copy-webpack-plugin').Pattern[]} */ (
           [
             {
+              from: path.resolve(__dirname, 'frame-test.html'),
+              to: path.resolve(__dirname, buildFolder),
+            },
+            {
               from: path.resolve(__dirname, 'static'),
               to: path.resolve(__dirname, buildFolder, 'static'),
             },
