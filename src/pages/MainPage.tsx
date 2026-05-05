@@ -11,22 +11,18 @@ import { docTypeIds, TDocTypeId } from '@/features/docType';
 import { cn, getErrorText } from '@/lib';
 import { ErrorLike } from '@/types/ErrorLike';
 
+const defaultItems: TDocTypeId[] = isDev ? ['glass'] : [];
+
 export function MainPage() {
   const [error, setError] = React.useState<ErrorLike>();
   const [isCreating, setIsCreating] = React.useState(false);
   const [hasCreated, setHasCreated] = React.useState(false);
-  const [selectedItems, setSelectedItems] = React.useState<Set<TDocTypeId>>(
-    new Set(
-      isDev
-        ? [
-            'glass',
-            // 'rubber',
-          ]
-        : [],
-    ),
-  );
+  const [selectedItems, setSelectedItems] = React.useState<Set<TDocTypeId>>(new Set(defaultItems));
 
-  // const { mergeDocuments, isMerging, progress, error: mergeError, reset } = useDocxMerge();
+  // Effect: Reset the 'created' state if items has changed
+  React.useEffect(() => {
+    setHasCreated(false);
+  }, [selectedItems]);
 
   const createDoc = React.useCallback(async () => {
     if (!selectedItems.size) {
