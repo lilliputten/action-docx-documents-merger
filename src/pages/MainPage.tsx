@@ -11,7 +11,8 @@ import { docTypeIds, TDocTypeId } from '@/features/docType';
 import { cn, getErrorText } from '@/lib';
 import { ErrorLike } from '@/types/ErrorLike';
 
-const defaultItems: TDocTypeId[] = isDev ? ['glass'] : [];
+const __debugUseDemoData = isDev && false;
+const defaultItems: TDocTypeId[] = __debugUseDemoData ? ['glass'] : [];
 
 export function MainPage() {
   const [error, setError] = React.useState<ErrorLike>();
@@ -201,8 +202,9 @@ export function MainPage() {
             className={cn(
               isDev && '__MainPage_MainButton', // DEBUG
               'btn-base flex items-center p-3 text-white',
-              'btn-primary cursor-pointer',
-              !selectedItems.size && 'disabled',
+              'cursor-pointer select-none',
+              'bg-sky-500 hover:bg-sky-600 active:bg-sky-700',
+              !selectedItems.size && 'disabled bg-slate-500/50',
             )}
             onClick={createDoc}
           >

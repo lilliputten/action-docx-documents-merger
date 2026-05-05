@@ -22,10 +22,11 @@ export function DocItem(props: TProps) {
         'content-truncate',
         'flex items-center gap-3 p-3',
         'animate',
-        'cursor-pointer',
+        'cursor-pointer select-none',
         'hover:bg-sky-500/10',
+        'active:bg-sky-500/40',
         'rounded',
-        selected && 'bg-green-500/20 hover:bg-green-500/30',
+        selected && 'bg-green-500/20 hover:bg-green-500/30 active:bg-green-500/50',
         className,
       )}
       onClick={() => toggle(id)}
