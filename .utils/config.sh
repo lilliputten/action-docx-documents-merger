@@ -1,7 +1,7 @@
 #!/bin/sh
 # vim: ft=sh
 # @desc Config variables (common version -- stored in repository)
-# @changed 2025.06.21, 03:14
+# @changed 2026.05.05, 15:29
 
 if [ -z "$CONFIG_IMPORTED" ]; then
 
@@ -10,7 +10,7 @@ if [ -z "$CONFIG_IMPORTED" ]; then
 
   APP_ID=`git ls-remote --get-url | xargs basename -s .git`
 
-  BUILD_FOLDER="dist"
+  BUILD_FOLDER="build"
 
   VERSION_FILE="project-version.txt"
   PROJECT_INFO_FILE="static/app-info.txt"
