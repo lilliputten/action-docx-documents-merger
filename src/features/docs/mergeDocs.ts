@@ -1,8 +1,4 @@
 import { mergeDocx } from '@benedicte/docx-merge';
-// import DocxMerger from '@valentiniljaz/docx-merger';
-
-// import * as htmlDocx from 'html-docx-js';
-// import mammoth from 'mammoth';
 
 import { TDocTypeId } from '@/features/docType';
 import { getErrorText } from '@/lib';
@@ -23,7 +19,6 @@ export async function mergeDocs(ids: TDocTypeId[]) {
       promises,
       ids,
     });
-    debugger;
     if (docsCount === 1) {
       return results[0];
     }
@@ -37,12 +32,11 @@ export async function mergeDocs(ids: TDocTypeId[]) {
      */
     // METHOD 2
     // @see https://www.npmjs.com/package/@benedicte/docx-merge
-    const result = mergeDocx(file1, file2, {});
+    const result = mergeDocx(file1, file2, { insertEnd: true });
     console.log('[mergeDocs:done]', {
       promises,
       ids,
     });
-    debugger;
     return result;
   } catch (error) {
     const message = 'Ошибка объединения документов';

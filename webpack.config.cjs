@@ -1,5 +1,6 @@
 // @ts-check
 
+const webpack = require('webpack');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
@@ -28,6 +29,7 @@ class PrettifyHtmlPlugin {
               trailingComma: 'es5',
             });
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Error prettifying HTML:', error);
           }
           cb(null, data);
@@ -50,7 +52,10 @@ module.exports = /**
   const isDev = argv.mode === 'development';
   return {
     mode: 'development',
-    entry: './src/main.tsx',
+    entry: [
+      // './src/polyfills/bootstrap.cjs',
+      './src/main.tsx',
+    ],
     devtool: isDev ? 'eval-cheap-source-map' : 'source-map',
     optimization: {
       minimize: !isDev,
@@ -80,6 +85,7 @@ module.exports = /**
         util: require.resolve('util/'),
         assert: require.resolve('assert/'),
         vm: require.resolve('vm-browserify'),
+        process: require.resolve('process/browser.js'),
       },
     },
     devServer: {
@@ -181,6 +187,10 @@ module.exports = /**
     plugins: [
       new Dotenv(),
       new CleanWebpackPlugin(),
+      new webpack.ProvidePlugin({
+        process: path.resolve(__dirname, 'src/polyfills/process.cjs'),
+        Buffer: ['buffer', 'Buffer'],
+      }),
       new MiniCssExtractPlugin({
         filename: 'bundle/styles.[fullhash:8].css',
       }),

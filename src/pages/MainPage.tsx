@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 
 import { DocItem } from '@/components';
 import { appTitle, isDev } from '@/config';
-import { fetchDocBuffer } from '@/features/docs/helpers';
-import { useDocxMerge } from '@/features/docs/hooks';
+import { bufferToBlob } from '@/features/docs/helpers';
 import { mergeDocs } from '@/features/docs/mergeDocs';
 import { docTypeIds, TDocTypeId } from '@/features/docType';
 import { cn, getErrorText } from '@/lib';
@@ -33,44 +32,46 @@ export function MainPage() {
       return;
     }
 
+    setIsCreating(true);
+
     const items = [...selectedItems];
+
+    const documentTitle = 'document-' + items.join('-');
+    const documentFilename = `${documentTitle}.docx`;
+
     console.log('[MainPage:createDoc:start]', {
+      documentTitle,
+      documentFilename,
       items,
     });
 
     try {
-      /* // mergeDocxBuffers approach
-       * const promises = items.map((id) => fetchDocBuffer(id));
-       * const buffers = await Promise.all(promises);
-       * console.log('[MainPage:createDoc:loaded]', {
-       *   buffers,
-       *   promises,
-       *   items,
-       * });
-       * const documentTitle = 'document-' + items.join('-');
-       * const documentFilename = `${documentTitle}.docx`;
-       * const mergedBlob = await mergeDocuments({ buffers, documentTitle });
-       */
-
-      const mergedBlob = await mergeDocs(items);
+      const buffer = await mergeDocs(items);
+      if (!buffer) {
+        throw new Error('Создан пустой документ');
+      }
+      const blob = bufferToBlob(buffer);
 
       console.log('[MainPage:createDoc:done]', {
-        mergedBlob,
+        blob,
         items,
+        buffer,
+        documentFilename,
+        documentTitle,
       });
 
-      // if (mergedBlob) {
-      //   // saveAs(mergedBlob, documentFilename);
-      //   // Trigger download
-      //   const url = URL.createObjectURL(mergedBlob);
-      //   const link = document.createElement('a');
-      //   link.href = url;
-      //   link.download = `${documentTitle}.docx`;
-      //   document.body.appendChild(link);
-      //   link.click();
-      //   document.body.removeChild(link);
-      //   URL.revokeObjectURL(url);
-      // }
+      if (blob) {
+        // Trigger download
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = documentFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        setHasCreated(true);
+      }
     } catch (error) {
       const message = 'Ошибка создания документа';
       const details = getErrorText(error);
@@ -83,16 +84,12 @@ export function MainPage() {
         items,
       });
       debugger; // eslint-disable-line no-debugger
-      throw new Error(comboMsg);
+      // throw new Error(comboMsg);
+      setError(comboMsg);
+      toast.error(comboMsg);
+    } finally {
+      setIsCreating(false);
     }
-    /* // UNUSED: Navigate to a specific page
-     * const searchParams = new URLSearchParams();
-     * items.forEach((item) => searchParams.append('doc', item));
-     * navigate({
-     *   pathname: '/create',
-     *   search: `?${searchParams.toString()}`,
-     * });
-     */
   }, [selectedItems]);
 
   const toggleitem = React.useCallback((id: TDocTypeId) => {
@@ -127,7 +124,8 @@ export function MainPage() {
     <div
       className={cn(
         isDev && '__MainPage', // DEBUG
-        'flex w-full max-w-md flex-col self-center',
+        'flex w-full flex-col self-center',
+        'max-w-md',
       )}
     >
       <div

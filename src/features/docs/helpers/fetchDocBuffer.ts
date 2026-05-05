@@ -4,7 +4,7 @@ const docUrlPrefix = './static/docs/';
 const docExt = '.docx';
 
 export type TDocData = Buffer<ArrayBufferLike>;
-export type TDocBuffer = Buffer<ArrayBufferLike>;
+export type TDocBuffer = TDocData; // Buffer<ArrayBuffer>;
 export type TDocCachedBuffers = Partial<Record<TDocTypeId, TDocData>>;
 
 const cachedBuffers: TDocCachedBuffers = {};
@@ -60,7 +60,9 @@ export async function fetchDocBuffer(id: TDocTypeId) {
   /* // Possible transformations:
    * const binary: string = String.fromCharCode(...new Uint8Array(arrayBuffer));
    */
-  const buffer: Buffer<ArrayBufferLike> = Buffer.from(arrayBuffer);
+  const buffer: TDocData = Buffer.from(arrayBuffer);
   cachedBuffers[id] = buffer;
   return cachedBuffers[id];
 }
+
+// Buffer to blob conversion moved to dedicated module
