@@ -14,7 +14,7 @@ Simple docx documents merger.
 
 ## Build info (auto-generated)
 
-- Project info: v.0.0.0 / 2026.05.05 15:13:36 +0300
+- Project info: v.0.0.1 / 2026.05.05 16:07:32 +0300
 
 ## Resources
 
