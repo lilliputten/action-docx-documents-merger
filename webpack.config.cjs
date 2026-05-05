@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const prettier = require('prettier');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 // Make sure that env variables are loaded
 if (fs.existsSync('.env')) {
@@ -72,6 +73,7 @@ module.exports = /**
     devtool: isDev ? 'eval-cheap-source-map' : useSourceMaps ? 'source-map' : false,
     optimization: {
       minimize: !isDev,
+      minimizer: [new CssMinimizerPlugin()],
     },
     output: {
       path: path.resolve(__dirname, buildFolder),
