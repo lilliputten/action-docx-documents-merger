@@ -24,13 +24,6 @@ export async function mergeDocs(ids: TDocTypeId[]) {
     }
     const file1 = results[0];
     const file2 = results[1];
-    /* // METHOD 1
-     * const docx = new DocxMerger();
-     * await docx.initialize({}, [file1, file2]);
-     * // SAVING THE DOCX FILE
-     * const result = await docx.save('nodebuffer');
-     */
-    // METHOD 2
     // @see https://www.npmjs.com/package/@benedicte/docx-merge
     const result = mergeDocx(file1, file2, { insertEnd: true });
     console.log('[mergeDocs:done]', {

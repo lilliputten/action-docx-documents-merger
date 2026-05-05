@@ -1,3 +1,4 @@
+import { docxMimeType } from '@/constants';
 import { getDocTypeIdentString, TDocTypeId } from '@/features/docType';
 
 const docUrlPrefix = './static/docs/';
@@ -22,7 +23,7 @@ export async function fetchDocBuffer(id: TDocTypeId) {
   }
   const res = await fetch(url, {
     headers: {
-      Accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      Accept: docxMimeType,
     },
   });
   const { ok, status, headers } = res;

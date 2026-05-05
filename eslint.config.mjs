@@ -47,6 +47,7 @@ export default [
       'public/**',
       'static/**',
       'dist/**',
+      'build/**',
       '.next/**',
     ],
   },

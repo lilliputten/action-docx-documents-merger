@@ -1,12 +1,18 @@
 import appInfo from '@/app-info.json';
 
-// export const isDev = import.meta.env.DEV; // Vite mode
-export const isDev = process.env.NODE_ENV === 'development'; // WebPack mode
+export const noStrictMode =
+  import.meta.env.VITE_NO_STRICT_MODE ?? // Vite mode
+  process.env.VITE_NO_STRICT_MODE; // WebPack mode
+
+export const isDev =
+  import.meta.env.DEV ?? // Vite mode
+  process.env.NODE_ENV === 'development'; // WebPack mode
+
 export const isProd = !isDev;
 
 export const versionInfo = appInfo.versionInfo;
 
-export const appTitle: string = import.meta.env.VITE_APP_TITLE || '';
+export const appTitle: string = import.meta.env.VITE_APP_TITLE || process.env.VITE_APP_TITLE || '';
 
 /* // NOTE: These parameters are required if we need a server API application
  * export const originHost =

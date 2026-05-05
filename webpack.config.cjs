@@ -9,6 +9,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const prettier = require('prettier');
 
+/** Convert to boolean value
+ * @param {string} [x]
+ * @return boolean
+ */
+function truly(x) {
+  return !!x && x !== '0' && x.toLowerCase() !== 'false';
+}
+
+const noSourceMaps = truly(process.env.NO_SOURCE_MAPS);
+const useSourceMaps = !noSourceMaps;
+
 class PrettifyHtmlPlugin {
   /**
    * @param {{ hooks: { compilation: { tap: (arg0: string, arg1: (compilation: any) => void) => void; }; }; }} compiler
@@ -45,10 +56,6 @@ module.exports = /**
  * @param {Record<string, string>} _env
  * @param {Record<string, string>} argv
  */ (_env, argv) => {
-  // const DATASET = process.env.DATASET || '';
-  // if (DATASET) {
-  //   console.log('DATASET:', DATASET);
-  // }
   const isDev = argv.mode === 'development';
   return {
     mode: 'development',
@@ -56,7 +63,7 @@ module.exports = /**
       // './src/polyfills/bootstrap.cjs',
       './src/main.tsx',
     ],
-    devtool: isDev ? 'eval-cheap-source-map' : 'source-map',
+    devtool: isDev ? 'eval-cheap-source-map' : useSourceMaps ? 'source-map' : false,
     optimization: {
       minimize: !isDev,
     },
@@ -198,8 +205,8 @@ module.exports = /**
         patterns: /** @type {import('copy-webpack-plugin').Pattern[]} */ (
           [
             {
-              from: path.resolve(__dirname, 'static/js'),
-              to: path.resolve(__dirname, buildFolder, 'static/js'),
+              from: path.resolve(__dirname, 'static'),
+              to: path.resolve(__dirname, buildFolder, 'static'),
             },
             {
               from: path.resolve(__dirname, 'public'),
@@ -218,8 +225,8 @@ module.exports = /**
         filename: 'index.html',
         minify: false,
         templateParameters: {
-          APP_TITLE: process.env.APP_TITLE,
-          APP_DESCRIPTION: process.env.APP_DESCRIPTION,
+          VITE_APP_TITLE: process.env.VITE_APP_TITLE,
+          VITE_APP_DESCRIPTION: process.env.VITE_APP_DESCRIPTION,
         },
         /* // @see https://github.com/jantimon/html-webpack-plugin?tab=readme-ov-file#minification
          * minify: {

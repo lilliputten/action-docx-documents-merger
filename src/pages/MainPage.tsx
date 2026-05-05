@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import { DocItem } from '@/components';
 import { appTitle, isDev } from '@/config';
+import { docxMimeType } from '@/constants';
 import { bufferToBlob } from '@/features/docs/helpers';
 import { mergeDocs } from '@/features/docs/mergeDocs';
 import { docTypeIds, TDocTypeId } from '@/features/docType';
@@ -61,7 +62,37 @@ export function MainPage() {
       });
 
       if (blob) {
-        // Trigger download
+        // Try to use File System Access API for better control (modern browsers)
+        if (window.showSaveFilePicker) {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: documentFilename,
+              types: [
+                {
+                  description: 'Word Document',
+                  accept: {
+                    [docxMimeType]: ['.docx'],
+                  },
+                },
+              ],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            // File has been successfully saved!
+            setHasCreated(true);
+            return;
+          } catch (err) {
+            // User cancelled or error occurred, fall back to traditional method
+            if ((err as Error).name === 'AbortError') {
+              // User cancelled the save dialog
+              return;
+            }
+            // For other errors, fall through to traditional download
+          }
+        }
+
+        // Traditional download method (fallback for older browsers)
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -69,6 +100,9 @@ export function MainPage() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        // Note: We can't reliably detect when the download completes
+        // with the traditional method. Set state immediately after triggering.
         URL.revokeObjectURL(url);
         setHasCreated(true);
       }
@@ -155,7 +189,8 @@ export function MainPage() {
         <ul
           className={cn(
             isDev && '__MainPage_Items', // DEBUG
-            'content-truncate flex flex-col gap-1 p-0',
+            'content-truncate animation flex flex-col gap-1 p-0',
+            isCreating && 'disabled',
           )}
         >
           {typesList}
