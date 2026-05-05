@@ -42,7 +42,40 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      // Node.js polyfills for browser compatibility
+      // These are needed for libraries like @benedicte/docx-merge that depend on Node.js modules
+      path: 'path-browserify',
+      crypto: 'crypto-browserify',
+      zlib: 'browserify-zlib',
+      fs: 'browserify-fs',
+      buffer: 'buffer/',
+      stream: 'stream-browserify',
+      util: 'util/',
+      assert: 'assert/',
+      vm: 'vm-browserify',
+      process: 'process/browser.js',
     },
+  },
+
+  define: {
+    // Global polyfills - inject these as globals for libraries that expect them
+    global: 'globalThis',
+  },
+
+  optimizeDeps: {
+    // Ensure these dependencies are pre-bundled
+    include: [
+      'path-browserify',
+      'crypto-browserify',
+      'browserify-zlib',
+      'browserify-fs',
+      'buffer',
+      'stream-browserify',
+      'util',
+      'assert',
+      'vm-browserify',
+      'process',
+    ],
   },
 
   /* // SCSS Configuration (TODO: To make it work with tailwindcss v.4)
