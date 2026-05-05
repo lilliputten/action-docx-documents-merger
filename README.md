@@ -6,15 +6,15 @@
 
 # Action - DOCX documents merger
 
-[The VLOOKUP trainer applicaiton](https://action-docx-documents-merger.vercel.app/) is implemented via React, Vite, TS, and Tailwind, deployed to Vercel. Developed for Russian company [Action Academy](https://academy.action-mcfr.ru/) (it supports both English and Russian localizations).
+[The VLOOKUP trainer applicaiton](https://action-docx-documents-merger.vercel.app/) is implemented via React, Webpack (Vite doesn't support required popyfills), TS, and Tailwind, deployed to Vercel. Developed for Russian company [Action Academy](https://academy.action-mcfr.ru/) (it supports both English and Russian localizations).
 
-It's a simple pharmacy wahrehouse trainer.
+Simple docx documents merger.
 
-![Application banner](public/opengraph-image.jpg 'Application banner')
+![Application banner](static/opengraph-image.jpg 'Application banner')
 
 ## Build info (auto-generated)
 
-- Project info: v.0.0.0 / 2026.05.04 15:19:01 +0300
+- Project info: v.0.0.0 / 2026.05.05 15:13:36 +0300
 
 ## Resources
 
